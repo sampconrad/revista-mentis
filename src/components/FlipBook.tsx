@@ -96,15 +96,9 @@ const FlipBook = () => {
 
   if (loading) {
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        fontSize: '1.2rem',
-        color: '#666'
-      }}>
-        Carregando revista...
+      <div className='loading-container'>
+        <div className='spinner'></div>
+        <div className='loading-text'>Carregando revista...</div>
       </div>
     );
   }
@@ -113,15 +107,16 @@ const FlipBook = () => {
   const progress = Math.min((currentPage / (totalPages - 2)) * 100, 100);
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100vh',
-      minHeight: '100vh',
-      backgroundColor: '#cfcfcf',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+        minHeight: '100vh',
+        backgroundColor: '#cfcfcf',
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
       <Navbar
         currentPage={currentPage}
         totalPages={totalPages}
@@ -129,21 +124,22 @@ const FlipBook = () => {
         onZoomIn={handleZoomIn}
         onZoomOut={handleZoomOut}
       />
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-        padding: '80px 20px 20px 20px',
-        transform: `scale(${scale})`,
-        transition: 'transform 0.3s ease',
-        maxHeight: 'calc(100vh - 100px)',
-        overflow: 'hidden'
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flex: 1,
+          padding: '80px 20px 20px 20px',
+          transform: `scale(${scale})`,
+          transition: 'transform 0.3s ease',
+          maxHeight: 'calc(100vh - 100px)',
+          overflow: 'hidden',
+        }}>
         <HTMLFlipBook
           width={550}
           height={780}
-          size="stretch"
+          size={window.innerWidth <= 1120 ? 'stretch' : 'fixed'}
           minWidth={315}
           maxWidth={1000}
           minHeight={400}
@@ -157,10 +153,10 @@ const FlipBook = () => {
           showPageCorners={true}
           disableFlipByClick={false}
           ref={bookRef}
-          className="flipbook"
-          style={{ 
+          className='flipbook'
+          style={{
             margin: '0 auto',
-            maxHeight: 'calc(100vh - 100px)'
+            maxHeight: 'calc(100vh - 100px)',
           }}
           startPage={0}
           drawShadow={true}
@@ -168,10 +164,13 @@ const FlipBook = () => {
           usePortrait={true}
           startZIndex={0}
           autoSize={true}
-          onFlip={handlePageChange}
-        >
+          onFlip={handlePageChange}>
           {pages.map((imageUrl, index) => (
-            <Page key={index} number={index + 1} imageUrl={imageUrl} />
+            <Page
+              key={index}
+              number={index + 1}
+              imageUrl={imageUrl}
+            />
           ))}
         </HTMLFlipBook>
       </div>
